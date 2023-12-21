@@ -1,7 +1,8 @@
 // src/firebase.js
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {getMessaging, getToken} from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -17,6 +18,26 @@ const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const auth = getAuth(firebaseApp);
 const provider = new GoogleAuthProvider();
+const messaging = getMessaging(firebaseApp);
 
-export { auth, db, provider };
+
+const addNotification = async (userId, jobId, message) => {
+  try {
+    const notificationsCollection = collection(db, 'notifications');
+    await addDoc(notificationsCollection, {
+      userId,
+      jobId,
+      message,
+      timestamp: serverTimestamp(),
+    });
+  } catch (error) {
+    console.error('Error adding notification to Firestore:', error.message);
+  }
+};
+
+export { addNotification };
+
+
+export { auth, db, provider, messaging };
+
 export default firebaseApp;

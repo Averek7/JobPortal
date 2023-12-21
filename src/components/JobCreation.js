@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import firebaseApp, { auth } from "../firebase";
+import firebaseApp, { addNotification, auth } from "../firebase";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,6 +27,7 @@ const JobCreation = () => {
       });
 
       toast.success("Job listing created successfully!");
+      addNotification(auth.currentUser.uid, newJobRef.id, "Job listing created successfully!")
       console.log("New job ID:", newJobRef.id);
 
       setJobTitle("");

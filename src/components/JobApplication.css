@@ -24,7 +24,7 @@ textarea {
   border-radius: 4px;
 }
 
-button {
+.application-button {
   width: 100%;
   padding: 10px;
   background-color: #007bff;
@@ -34,7 +34,7 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.application-button:hover {
   background-color: #0056b3;
 }
 

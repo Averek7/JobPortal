@@ -1,8 +1,7 @@
 // src/components/JobApplication.js
 import React, { useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
-
-import firebaseApp from "../firebase";
+import firebaseApp, { addNotification, auth } from "../firebase";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import "./JobApplication.css";
 import { toast } from 'react-toastify';
@@ -29,6 +28,7 @@ const JobApplication = () => {
       setApplicantEmail("");
       setApplicationText("");
       navigate('/')
+      addNotification(auth.currentUser.uid, jobId, "Application submitted successfully!")
       toast.success(`Application submitted successfully! with ID ${applicationsRef.id}`);
     } catch (error) {
       toast.error(`Failed to submit application. Please try again, ${error.message}`);
@@ -55,7 +55,7 @@ const JobApplication = () => {
         value={applicationText}
         onChange={(e) => setApplicationText(e.target.value)}
       />
-      <button onClick={handleJobApplication}>Submit Application</button>
+      <button className="application-button" onClick={handleJobApplication}>Submit Application</button>
     </div>
   );
 };
