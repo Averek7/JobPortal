@@ -1,6 +1,6 @@
 // src/components/JobApplication.js
 import React, { useState } from 'react';
-import './JobApplication.css'; // Import the CSS for styling
+import './JobApplication.css'; 
 
 const JobApplication = () => {
   const [applicantName, setApplicantName] = useState('');
@@ -9,9 +9,6 @@ const JobApplication = () => {
   const [successMessage, setSuccessMessage] = useState('');
 
   const handleJobApplication = async () => {
-    // Your logic to handle job applications, e.g., sending data to a server
-
-    // Example success message for illustration purposes
     setSuccessMessage('Application submitted successfully!');
   };
 

@@ -8,7 +8,6 @@ import {
 import Login from "./components/Login";
 import Home from "./components/Home";
 import { auth } from "./firebase";
-import JobDetails from "./components/JobDetails";
 import JobCreation from "./components/JobCreation";
 import JobApplication from "./components/JobApplication";
 
@@ -28,10 +27,6 @@ const App = () => {
       <Routes>
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
         <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
-        <Route
-          path="/job/:jobId"
-          element={user ? <JobDetails /> : <Navigate to="/login" />}
-        />
         <Route
           path="/create-job"
           element={user ? <JobCreation /> : <Navigate to="/login" />}
