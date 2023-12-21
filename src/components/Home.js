@@ -1,12 +1,14 @@
+// src/components/Home.js
 import React, { useEffect, useState } from "react";
 import JobListing from "./JobListing";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+import firebaseApp from "../firebase"; // Adjust this import based on your project structure
 
 const Home = () => {
   const [user, setUser] = useState(null);
-  // const [jobListings, setJobListings] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,20 +23,18 @@ const Home = () => {
     return () => unsubscribe();
   }, [navigate]);
 
-  const jobListings = [
-    {
-      id: 1,
-      title: "Software Engineer",
-      description: "Join our innovative software development team.",
-      requirements: "Experience in React, Node.js, and MongoDB.",
-    },
-    {
-      id: 2,
-      title: "Data Scientist",
-      description: "Exciting opportunity for data enthusiasts.",
-      requirements: "Strong background in machine learning and data analysis.",
-    },
-  ];
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const db = getFirestore(firebaseApp);
+      const snapshot = await getDocs(collection(db, "jobs"));
+      const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setJobs(data);
+    };
+
+    fetchData();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -44,6 +44,11 @@ const Home = () => {
       console.error(error.message);
     }
   };
+
+  const handleToggleJobCreation = () => {
+    navigate("/create-job"); // Redirect to create job page
+  };
+
   return (
     <div className="home-container">
       <div className="home-info">
@@ -51,12 +56,17 @@ const Home = () => {
           <h1>Welcome to the Job Portal</h1>
         </div>
         <div className="user-info">
-          {user && <p>Welcome, {user.email}!</p>}
-          <button className="logout-button" onClick={handleLogout}>Logout</button>
+          {user && <p className="user">Welcome, {user.email}!</p>}
+          <button className="logout-button" onClick={handleToggleJobCreation}>
+            Create Jobs
+          </button>
+          <button className="logout-button" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       </div>
       <div className="job-listings">
-        {jobListings.map((job) => (
+        {jobs.map((job) => (
           <JobListing key={job.id} job={job} />
         ))}
       </div>

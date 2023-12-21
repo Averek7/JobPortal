@@ -1,0 +1,35 @@
+.main-job-creation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+.job-creation-container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.job-creation-container h2 {
+  margin-bottom: 20px;
+}
+
+.job-creation-container input,
+.job-creation-container textarea,
+.job-creation-container button {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.job-creation-container .job-button {
+  background-color: #4caf50;
+  color: #fff;
+  cursor: pointer;
+}
+
+.job-creation-container .job-button:hover {
+  background-color: #45a049;
+}

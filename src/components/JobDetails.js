@@ -1,9 +1,9 @@
 // src/components/JobDetails.js
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { auth } from '../firebase';
-import db from '../firebase'; 
-import './JobDetails.css'; 
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import firebaseApp, { auth } from "../firebase";
+import { getFirestore } from "firebase/firestore";
+import "./JobDetails.css";
 
 const JobDetails = () => {
   const { jobId } = useParams();
@@ -12,17 +12,18 @@ const JobDetails = () => {
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
-        const jobDoc = await db.collection('jobs').doc(jobId).get();
+        const db = getFirestore(firebaseApp);
+        const jobDoc = await db.collection("jobs").doc(jobId).get();
         const jobData = jobDoc.data();
 
         // Check if the user is logged in before displaying job details
         if (auth.currentUser && jobData) {
           setJobDetails(jobData);
         } else {
-          console.error('User not logged in or job not found.');
+          console.error("User not logged in or job not found.");
         }
       } catch (error) {
-        console.error('Error fetching job details:', error.message);
+        console.error("Error fetching job details:", error.message);
       }
     };
 
