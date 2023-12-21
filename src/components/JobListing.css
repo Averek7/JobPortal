@@ -21,7 +21,6 @@
 }
 
 .job-button {
-  background-color: #5c8fe1;
   color: #fff;
   padding: 10px;
   border: none;
@@ -29,8 +28,4 @@
   cursor: pointer;
   width: 100%;
   margin: 15px 0px 15px 0px;
-}
-
-.job-button:hover {
-  background-color: #40a3ef;
 }

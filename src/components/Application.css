@@ -1,0 +1,30 @@
+/* src/components/ApplicationDashboard.css */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .jobSection {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  .jobHeader {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  
+  .applicationItem {
+    border: 1px solid #eee;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .applicationItem p {
+    margin: 5px 0;
+  }
+  
+  /* Apply additional styles based on your preferences */
+  

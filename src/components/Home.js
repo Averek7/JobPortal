@@ -39,14 +39,18 @@ const Home = () => {
   const handleLogout = async () => {
     try {
       await auth.signOut();
-      navigate("/login"); // Redirect to login after logout
+      navigate("/");
     } catch (error) {
       console.error(error.message);
     }
   };
 
   const handleToggleJobCreation = () => {
-    navigate("/create-job"); // Redirect to create job page
+    navigate("/create-job");
+  };
+
+  const handleToggleApplication = () => {
+    navigate("/applications");
   };
 
   return (
@@ -56,13 +60,38 @@ const Home = () => {
           <h1>Welcome to the Job Portal</h1>
         </div>
         <div className="user-info">
-          {user && <p className="user">Welcome, {user.email}!</p>}
-          <button className="logout-button" onClick={handleToggleJobCreation}>
-            Create Jobs
-          </button>
-          <button className="logout-button" onClick={handleLogout}>
-            Logout
-          </button>
+          {user ? (
+            <>
+              <p className="user">Welcome, {user.email}!</p>
+              <button
+                className="logout-button"
+                onClick={handleToggleJobCreation}
+              >
+                Create Jobs
+              </button>
+              <button
+                className="logout-button"
+                onClick={handleToggleApplication}
+              >
+                Applications
+              </button>
+              <button className="logout-button" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button className="login-btn" onClick={() => navigate("/login")}>
+                Login
+              </button>
+              <button
+                className="login-btn"
+                onClick={() => navigate("/register")}
+              >
+                Register
+              </button>
+            </>
+          )}
         </div>
       </div>
       <div className="job-listings">

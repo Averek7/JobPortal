@@ -1,15 +1,38 @@
 // src/components/JobApplication.js
-import React, { useState } from 'react';
-import './JobApplication.css'; 
+import React, { useState } from "react";
+import { useNavigate, useParams } from 'react-router-dom';
+
+import firebaseApp from "../firebase";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import "./JobApplication.css";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const JobApplication = () => {
-  const [applicantName, setApplicantName] = useState('');
-  const [applicantEmail, setApplicantEmail] = useState('');
-  const [applicationText, setApplicationText] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const { jobId } = useParams();
+  const navigate = useNavigate();
+  const [applicantName, setApplicantName] = useState("");
+  const [applicantEmail, setApplicantEmail] = useState("");
+  const [applicationText, setApplicationText] = useState("");
 
   const handleJobApplication = async () => {
-    setSuccessMessage('Application submitted successfully!');
+    try {
+      const db = getFirestore(firebaseApp);
+      const applicationsRef = await addDoc(collection(db, "applications"), {
+        jobId: jobId,
+        name: applicantName,
+        email: applicantEmail,
+        applicationText: applicationText,
+      });
+      
+      setApplicantName("");
+      setApplicantEmail("");
+      setApplicationText("");
+      navigate('/')
+      toast.success(`Application submitted successfully! with ID ${applicationsRef.id}`);
+    } catch (error) {
+      toast.error(`Failed to submit application. Please try again, ${error.message}`);
+    }
   };
 
   return (
@@ -33,7 +56,6 @@ const JobApplication = () => {
         onChange={(e) => setApplicationText(e.target.value)}
       />
       <button onClick={handleJobApplication}>Submit Application</button>
-      {successMessage && <p className="success-message">{successMessage}</p>}
     </div>
   );
 };
